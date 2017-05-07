@@ -49,6 +49,8 @@
         bricks[c][r] = {x: 0, y: 0, status: 1};
       }
     }
+    // score
+    var score = 0;
 
     // keyboard events
     document.addEventListener("keydown", keyDownHandler, false);
@@ -83,6 +85,14 @@
               dy = -dy;
               // update brick status
               b.status = 0;
+              // update score
+              score++;
+
+              // check if all bricks are destroyed
+              if (score == brickRowCount*brickColumnCount) {
+                alert("YOU WIN!");
+                document.location.reload();
+              }
             }
           }
         }
@@ -90,6 +100,12 @@
     };
 
     // drawing functions
+    function drawScore() {
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "#0095DD";
+      ctx.fillText("Score: " + score, 8, 20);
+    };
+
     function drawBall() {
       ctx.beginPath();
       ctx.arc(x, y, ballRadius, 0, Math.PI*2);
@@ -132,6 +148,7 @@
       drawBricks();
       drawBall();
       drawPaddle();
+      drawScore();
 
       // brick collision detection
       collisionDetection();
